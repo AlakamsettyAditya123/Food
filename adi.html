@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aditya Restaurant - Order Now</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: #fff;
+            text-align: center;
+            padding: 3rem 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative; /* Needed for background image positioning */
+            overflow: hidden; /* Hide overflow of background image */
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://i.imgur.com/your-restaurant-background-image.jpg'); /* Replace with a suitable restaurant background image */
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3; /* Adjust opacity as needed */
+            z-index: 0;
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            margin: 0;
+            letter-spacing: 5px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative; /* Bring text above background image */
+            z-index: 1;
+        }
+
+        header p {
+            font-size: 1.5rem;
+            margin-top: 0.5rem;
+            position: relative; /* Bring text above background image */
+            z-index: 1;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .menu {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            text-align: center;
+            color: #e74c3c;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .menu-item {
+            background-color: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .menu-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .menu-item h3 {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin: 0.5rem 0;
+        }
+
+        .menu-item p {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .price {
+            font-weight: bold;
+            color: #e74c3c;
+            font-size: 1.5rem;
+            display: block;
+            margin-top: 1rem;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), #e74c3c, rgba(0, 0, 0, 0));
+            margin: 4rem 0;
+        }
+
+        /* Order Form Styling */
+        .order-form-section {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .order-form-section h2 {
+            color: #2c3e50;
+        }
+
+        #foodOrderForm {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="tel"],
+        .form-group input[type="email"],
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #e74c3c;
+            outline: none;
+        }
+
+        .order-items {
+            background-color: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .item-selection {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .item-selection input[type="checkbox"] {
+            margin-right: 1rem;
+            transform: scale(1.5);
+            accent-color: #e74c3c;
+        }
+
+        .item-selection label {
+            font-weight: normal;
+            font-size: 1.1rem;
+            flex-grow: 1;
+        }
+
+        .item-selection input[type="number"] {
+            width: 60px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .submit-button {
+            background-color: #e74c3c;
+            color: #fff;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            align-self: center;
+        }
+
+        .submit-button:hover {
+            background-color: #c0392b;
+            transform: scale(1.05);
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem 0;
+            background-color: #2c3e50;
+            color: #fff;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>ADITYA RESTAURANT</h1>
+        <p>A Taste of Tradition, Crafted with Passion</p>
+    </header>
+
+    <main>
+        <section class="menu">
+            <h2>Our Signature Dishes</h2>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    
+                    <h3>Hyderabadi Biryani</h3>
+                    <p>Aromatic basmati rice cooked with tender marinated chicken and a blend of spices. A true classic.</p>
+                    <span class="price">₹450</span>
+                </div>
+                <div class="menu-item">
+                    
+                    <h3>Classic Butter Chicken</h3>
+                    <p>Succulent pieces of chicken in a rich, creamy tomato and butter gravy. Irresistibly delicious.</p>
+                    <span class="price">₹400</span>
+                </div>
+                <div class="menu-item">
+                    
+                    <h3>Garlic Naan</h3>
+                    <p>Soft, fluffy Indian bread with a generous topping of fresh garlic and cilantro. Perfect with any curry.</p>
+                    <span class="price">₹100</span>
+                </div>
+                <div class="menu-item">
+                    
+                    <h3>Paneer Tikka</h3>
+                    <p>Cubes of paneer marinated in spices and grilled to perfection. A popular vegetarian delight.</p>
+                    <span class="price">₹350</span>
+                </div>
+                <div class="menu-item">
+                    
+                    <h3>Masala Dosa</h3>
+                    <p>Crispy thin crepe made from fermented batter, filled with spiced mashed potatoes.</p>
+                    <span class="price">₹120</span>
+                </div>
+                <div class="menu-item">
+                    
+                    <h3>Gulab Jamun</h3>
+                    <p>Deep-fried milk-solids balls soaked in a rose-flavored sugar syrup. A sweet ending to your meal.</p>
+                    <span class="price">₹80</span>
+                </div>
+            </div>
+        </section>
+
+        <hr>
+
+        <section class="order-form-section">
+            <h2>Place Your Order</h2>
+            <form id="foodOrderForm">
+                <div class="form-group">
+                    <label for="fullName">Full Name:</label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+                <div class="form-group">
+                    <label for="phoneNumber">Phone Number:</label>
+                    <input type="tel" id="phoneNumber" name="phoneNumber" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="deliveryAddress">Delivery Address:</label>
+                    <textarea id="deliveryAddress" name="deliveryAddress" rows="4" required></textarea>
+                </div>
+
+                <h3>Select Your Items</h3>
+                <div class="order-items">
+                    <div class="item-selection">
+                        <input type="checkbox" id="biryani" name="item" value="biryani">
+                        <label for="biryani">Hyderabadi Biryani (₹450)</label>
+                        <input type="number" name="quantity" min="1" value="1">
+                    </div>
+                    <div class="item-selection">
+                        <input type="checkbox" id="butterChicken" name="item" value="butterChicken">
+                        <label for="butterChicken">Classic Butter Chicken (₹400)</label>
+                        <input type="number" name="quantity" min="1" value="1">
+                    </div>
+                    <div class="item-selection">
+                        <input type="checkbox" id="garlicNaan" name="item" value="garlicNaan">
+                        <label for="garlicNaan">Garlic Naan (₹100)</label>
+                        <input type="number" name="quantity" min="1" value="1">
+                    </div>
+                     <div class="item-selection">
+                        <input type="checkbox" id="paneerTikka" name="item" value="paneerTikka">
+                        <label for="paneerTikka">Paneer Tikka (₹350)</label>
+                        <input type="number" name="quantity" min="1" value="1">
+                    </div>
+                     <div class="item-selection">
+                        <input type="checkbox" id="masalaDosa" name="item" value="masalaDosa">
+                        <label for="masalaDosa">Masala Dosa (₹120)</label>
+                        <input type="number" name="quantity" min="1" value="1">
+                    </div>
+                     <div class="item-selection">
+                        <input type="checkbox" id="gulabJamun" name="item" value="gulabJamun">
+                        <label for="gulabJamun">Gulab Jamun (₹80)</label>
+                        <input type="number" name="quantity" min="1" value="1">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="specialInstructions">Special Instructions:</label>
+                    <textarea id="specialInstructions" name="specialInstructions" rows="3"></textarea>
+                </div>
+                
+                <button type="submit" class="submit-button">Place Order</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Thank you for visiting Aditya Restaurant</p>
+    </footer>
+
+</body>
+</html>
